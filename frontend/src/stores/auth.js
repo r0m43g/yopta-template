@@ -1,3 +1,4 @@
+// frontend/src/stores/auth.js
 import { defineStore } from 'pinia'
 import { jwtDecode } from 'jwt-decode'
 

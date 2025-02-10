@@ -1,3 +1,4 @@
+<!-- frontend/src/components/ValidationError.vue -->
 <template>
   <div v-if="errors && errors.length" class="validation-errors">
     <div

@@ -1,3 +1,4 @@
+<!-- frontend/src/views/Auth/Register.vue -->
 <template>
   <div class="max-w-2xl h-full mx-auto py-8 flex items-center justify-center">
     <div class="card lg:card-side glass  shadow-xl">

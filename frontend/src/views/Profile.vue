@@ -1,3 +1,4 @@
+<!-- frontend/src/views/Profile.vue -->
 <template>
   <div class="max-w-2xl h-full mx-auto py-8">
     <h1 class="text-3xl font-bold mb-8">Профиль пользователя</h1>

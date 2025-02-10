@@ -1,3 +1,4 @@
+<!-- frontend/src/views/Auth/Login.vue -->
 <template>
   <div class="flex flex-col items-center justify-center h-screen">
     <div class="card lg:card-side glass shadow-xl">

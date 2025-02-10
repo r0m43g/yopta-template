@@ -1,3 +1,4 @@
+<!-- frontend/src/App.vue -->
 <template>
   <div class="flex flex-col items-center justify-center h-screen w-screen">
     <AppTabs />

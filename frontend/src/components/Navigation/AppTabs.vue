@@ -1,3 +1,4 @@
+<!-- frontend/src/components/AppTabs.vue -->
 <template>
   <div class="tabs">
     <router-link
@@ -18,33 +19,42 @@ import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const route = useRoute()
-const tabs = computed(() => [
-  {
-    name: 'Вход',
-    route: '/login',
-    icon: 'user',
-  },
-  {
-    name: 'Регистрация',
-    route: '/register',
-    icon: 'user-plus',
-  },
-  {
-    name: 'Профиль',
-    route: '/profile',
-    icon: 'user',
-  },
-  {
-    name: 'Первая',
-    route: '/first',
-    icon: 'document',
-  },
-  {
-    name: 'Вторая',
-    route: '/second',
-    icon: 'collection',
-  }
-])
+const tabs = computed(() => {
+  let t = [
+    {
+      name: 'Вход',
+      route: '/login',
+      icon: 'user',
+      auth: false,
+    },
+    {
+      name: 'Регистрация',
+      route: '/register',
+      icon: 'user-plus',
+      auth: false,
+    },
+    {
+      name: 'Профиль',
+      route: '/profile',
+      icon: 'user',
+      auth: true,
+    },
+    {
+      name: 'Первая',
+      route: '/first',
+      icon: 'document',
+      auth: true,
+    },
+    {
+      name: 'Вторая',
+      route: '/second',
+      icon: 'collection',
+      auth: true,
+    }
+  ]
+
+  return t.filter(tab => tab.auth === !!useAuthStore().token)
+})
 
 const isActive = (tabRoute) => {
   return route.path.startsWith(tabRoute)

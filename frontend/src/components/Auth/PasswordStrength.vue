@@ -1,3 +1,4 @@
+<!-- frontend/components/PasswordStrength.vue -->
 <template>
   <div class="flex flex-col">
     <label class="input input-bordered flex items-center gap-2 my-2" :class="strengthClass">
