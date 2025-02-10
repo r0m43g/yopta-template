@@ -15,6 +15,7 @@ frontend/dist
 vite.config.js
 frontend/.env
 frontend/.vscode
+frontend/package-lock.json
 
 backend/.env
 backend/go.sum
