@@ -12,6 +12,7 @@ import (
 type UserProfile struct {
 	ID       int    `json:"id"`
 	Username string `json:"username"`
+	Email    string `json:"email"`
 }
 
 // GetProfile возвращает профиль пользователя.
@@ -24,8 +25,8 @@ func GetProfile(db *sql.DB) http.HandlerFunc {
 		}
 
 		var profile UserProfile
-		err = db.QueryRow("SELECT id, username FROM users WHERE id = ?", userID).
-			Scan(&profile.ID, &profile.Username)
+		err = db.QueryRow("SELECT id, username, email FROM users WHERE id = ?", userID).
+			Scan(&profile.ID, &profile.Username, &profile.Email)
 		if err != nil {
 			http.Error(w, "Пользователь не найден", http.StatusNotFound)
 			return

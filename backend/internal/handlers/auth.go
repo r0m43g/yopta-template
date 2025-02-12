@@ -13,6 +13,7 @@ import (
 
 type Credentials struct {
 	Username string `json:"username"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
@@ -43,8 +44,9 @@ func Register(db *sql.DB, jwtSecret, jwtExpiry string) http.HandlerFunc {
 
 		// Вставка пользователя в базу данных
 		res, err := db.Exec(
-			"INSERT INTO users (username, password) VALUES (?, ?)",
+			"INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
 			creds.Username,
+			creds.Email,
 			string(hashedPassword),
 		)
 		if err != nil {
@@ -82,10 +84,11 @@ func Login(db *sql.DB, jwtSecret, jwtExpiry string) http.HandlerFunc {
 
 		// Получение данных пользователя из базы
 		var id int
+		var email string
 		var storedHashedPassword string
 		var username string
-		err := db.QueryRow("SELECT id, username, password FROM users WHERE username = ?", creds.Username).
-			Scan(&id, &username, &storedHashedPassword)
+		err := db.QueryRow("SELECT id, username, email, password FROM users WHERE email = ?", creds.Email).
+			Scan(&id, &username, &email, &storedHashedPassword)
 		if err != nil {
 			http.Error(w, "Неверные учетные данные", http.StatusUnauthorized)
 			return

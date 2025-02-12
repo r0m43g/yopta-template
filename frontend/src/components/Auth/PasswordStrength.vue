@@ -1,7 +1,7 @@
 <!-- frontend/components/PasswordStrength.vue -->
 <template>
   <div class="flex flex-col">
-    <label class="input input-bordered flex items-center gap-2 my-2" :class="strengthClass">
+<!--    <label class="input input-bordered flex items-center gap-2 my-2" :class="strengthClass">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 16 16"
@@ -13,7 +13,7 @@
           clip-rule="evenodd" />
       </svg>
       <input v-model="password" type="password" @input="checkStrength" placeholder="Пароль" class="grow" required />
-    </label>
+</label> -->
     <div class="flex flex-row gap-1">
       <div v-for="n in 4" :key="n" class="h-px w-1/4 transition-colors" :class="n <= strength ? strengthColor : 'bg-red-500'"></div>
     </div>

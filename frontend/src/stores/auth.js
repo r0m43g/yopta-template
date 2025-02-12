@@ -6,6 +6,8 @@ export const useAuthStore = defineStore('auth', {
   state: () => ({
     token: localStorage.getItem('token') || null,
     user: null,
+    username: null,
+    email: null
   }),
   actions: {
     setToken(token) {
@@ -20,6 +22,8 @@ export const useAuthStore = defineStore('auth', {
     clearToken() {
       this.token = null
       this.user = null
+      this.username = null
+      this.email = null
       localStorage.removeItem('token')
     },
     isTokenValid() {
@@ -30,6 +34,10 @@ export const useAuthStore = defineStore('auth', {
       } catch (error) {
         return false
       }
+    },
+    setUser(user) {
+      this.username = user.username
+      this.email = user.email
     }
   },
 })
