@@ -70,6 +70,7 @@ func main() {
 	r.Route("/api", func(r chi.Router) {
 		r.Post("/register", handlers.Register(db, jwtSecret, jwtExpiry))
 		r.Post("/login", handlers.Login(db, jwtSecret, jwtExpiry))
+		r.Post("/refresh-token", handlers.RefreshToken(jwtSecret, jwtExpiry))
 	})
 
 	// Защищённые маршруты: требуется JWT-аутентификация

@@ -36,6 +36,7 @@
             <button class="btn btn-outline flex-1 mx-2" type="reset">Сбросить</button>
             <button class="btn btn-outline btn-primary flex-1 mx-2" type="submit">Войти</button>
           </div>
+          <ValidationError :errors="errors" @click="clearErrors"/>
         </form>
       </div>
     </div>
@@ -45,25 +46,36 @@
 <script>
 import api from '@/services/api'
 import { useAuthStore } from '@/stores/auth'
+import ValidationError from '@/components/Auth/ValidationError.vue'
 export default {
   name: "Login",
+  components: {
+    ValidationError
+  },
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      errors: []
     }
   },
   methods: {
     async login() {
       try {
+        this.errors = []
         const response = await api.post('/login', { email: this.email, password: this.password })
         const token = response.data.token
         const authStore = useAuthStore()
         authStore.setToken(token)
         this.$router.push({ name: 'profile' })
       } catch (error) {
-        console.error("Ошибка входа", error)
+        if (error.response) {
+          this.errors.push(error.response.data) } else { this.errors = ['Что-то пошло не так. Попробуйте еще раз.']
+        }
       }
+    },
+    clearErrors() {
+      this.errors = []
     }
   }
 }

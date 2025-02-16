@@ -3,7 +3,7 @@
   <div class="max-w-2xl h-full mx-auto py-8 flex items-center justify-center">
     <div class="card lg:card-side glass  shadow-xl">
       <figure>
-        <img src="https://picsum.photos/300/430" alt="Placeholder image" class="rounded-lg shadow-lg" />
+        <img src="https://picsum.photos/300/500" alt="Placeholder image" class="rounded-lg shadow-lg" />
       </figure>
       <div class="card-body">
         <h1 class="text-3xl font-bold mb-8">Регистрация</h1>
@@ -61,6 +61,7 @@
             <button class="btn btn-outline flex-1 mx-2" type="reset">Сбросить</button>
             <button class="btn btn-outline btn-primary flex-1 mx-2" type="submit">Регистрация</button>
           </div>
+          <validation-error :errors="errors" @click="clearErrors" />
         </form>
       </div>
     </div>
@@ -70,9 +71,11 @@
 <script>
 import api from '@/services/api'
 import PasswordStrength from '@/components/Auth/PasswordStrength.vue'
+import ValidationError from '@/components/Auth/ValidationError.vue'
 export default {
   components: {
-    PasswordStrength
+    PasswordStrength,
+    ValidationError
   },
   name: "Register",
   data() {
@@ -80,21 +83,26 @@ export default {
       username: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      errors: []
     }
   },
   methods: {
     async register() {
+      this.errors = []
       if (this.password !== this.confirmPassword) {
-        alert('Пароли не совпадают')
+        this.errors.push('Пароли не совпадают')
         return
       }
       try {
         await api.post('/register', { username: this.username, email: this.email, password: this.password })
         this.$router.push({ name: 'login' })
       } catch (error) {
-        console.error("Ошибка регистрации", error)
+        this.errors.push(error.response.data)
       }
+    },
+    clearErrors() {
+      this.errors = []
     }
   }
 }

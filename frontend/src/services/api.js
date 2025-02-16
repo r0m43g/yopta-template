@@ -21,6 +21,7 @@ api.interceptors.request.use(
 )
 
 // Response interceptor для обработки 401 и обновления токена
+/*
 api.interceptors.response.use(
   response => response,
   async error => {
@@ -44,6 +45,6 @@ api.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-
+*/
 export default api
 

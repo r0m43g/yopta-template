@@ -38,6 +38,7 @@ defineProps({
 <style scoped>
 .validation-errors {
   @apply mb-4;
+  cursor: pointer;
 }
 
 .alert-error {

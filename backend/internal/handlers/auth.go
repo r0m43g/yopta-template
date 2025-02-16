@@ -115,6 +115,47 @@ func Login(db *sql.DB, jwtSecret, jwtExpiry string) http.HandlerFunc {
 	}
 }
 
+// refreshToken обрабатывает обновление JWT токена.
+func RefreshToken(jwtSecret, jwtExpiry string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// Получение токена из запроса
+		tokenString := r.Header.Get("Authorization")
+		if tokenString == "" {
+			http.Error(w, "Токен не найден", http.StatusUnauthorized)
+			return
+		}
+
+		// Проверка токена
+		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+			return []byte(jwtSecret), nil
+		})
+		if err != nil {
+			http.Error(w, "Неверный токен", http.StatusUnauthorized)
+			return
+		}
+
+		// Проверка срока действия токена
+		claims, ok := token.Claims.(jwt.MapClaims)
+		if !ok || !token.Valid {
+			http.Error(w, "Токен не валиден", http.StatusUnauthorized)
+			return
+		}
+
+		// Генерация нового JWT токена
+		userID := int(claims["user_id"].(float64))
+		newTokenString, err := generateJWT(userID, jwtSecret, jwtExpiry)
+		if err != nil {
+			http.Error(w, "Ошибка генерации токена", http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(map[string]string{
+			"token": newTokenString,
+		})
+	}
+}
+
 // generateJWT генерирует JWT токен с заданными сроком действия и идентификатором пользователя.
 func generateJWT(userID int, jwtSecret, jwtExpiry string) (string, error) {
 	duration, err := time.ParseDuration(jwtExpiry)
